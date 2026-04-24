@@ -99,6 +99,14 @@ CSRF_COOKIE_SECURE=True
 SESSION_COOKIE_SAMESITE=Lax
 CSRF_COOKIE_SAMESITE=Lax
 
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=miizaproperties51@gmail.com
+DEFAULT_FROM_EMAIL=miizaproperties51@gmail.com
+SERVER_EMAIL=miizaproperties51@gmail.com
+
 STATIC_URL=/static/
 STATIC_ROOT=/home/miiza/app/staticfiles
 MEDIA_URL=/media/
@@ -120,7 +128,7 @@ run_on_vps "
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@miizarealtors.com', '$ADMIN_PASSWORD')
+    User.objects.create_superuser('admin', 'miizaproperties51@gmail.com', '$ADMIN_PASSWORD')
     print('Superuser created with password: $ADMIN_PASSWORD')
 else:
     print('Superuser already exists')
@@ -208,7 +216,7 @@ run_on_vps "
     sudo apt install -y certbot python3-certbot-nginx
     
     # Generate SSL certificate
-    sudo certbot --nginx -d miizarealtors.com -d www.miizarealtors.com --non-interactive --agree-tos --email admin@miizarealtors.com
+    sudo certbot --nginx -d miizarealtors.com -d www.miizarealtors.com --non-interactive --agree-tos --email miizaproperties51@gmail.com
     
     # Set up auto-renewal
     sudo crontab -l | grep -q certbot || echo '0 12 * * * /usr/bin/certbot renew --quiet' | sudo crontab -
