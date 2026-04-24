@@ -38,6 +38,7 @@ const Navigation = () => {
     { name: "About Us", path: "/about" },
     { name: "Services", path: "/services" },
     { name: "Properties", path: "/properties" },
+    { name: "Events", path: "/events" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -233,6 +234,23 @@ const Navigation = () => {
               </AnimatePresence>
             </div>
 
+            {/* Events Link */}
+            {navLinks
+              .filter((link) => link.name === "Events")
+              .map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`flex items-center px-4 py-0 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                    location.pathname === link.path
+                      ? "text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30"
+                      : "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+
             {/* Contact Link */}
             {navLinks
               .filter((link) => link.name === "Contact")
@@ -409,6 +427,23 @@ const Navigation = () => {
                   )}
                 </AnimatePresence>
               </div>
+
+              {/* Events Mobile */}
+              {navLinks
+                .filter((link) => link.name === "Events")
+                .map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`flex items-center px-4 py-2 rounded-lg text-base font-semibold transition-all ${
+                      location.pathname === link.path
+                        ? "text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30"
+                        : "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                  </Link>
+              ))}
 
               {/* Contact Mobile */}
               {navLinks

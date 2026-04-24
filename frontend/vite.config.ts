@@ -24,16 +24,20 @@ export default defineConfig(({ mode }) => ({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+        maximumFileSizeToCacheInBytes: 3000000,
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/.*\.(png|jpg|jpeg|svg|gif|webp)$/i,
+            urlPattern: /^https:\/\/.*\.(png|jpg|jpeg|svg|gif|webp|avif)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images-cache',
               expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 24 * 60 * 60, // 60 days
+              },
+              cacheKeyWillBeUsed: async ({ request }) => {
+                return `${request.url}?v=1`;
               },
             },
           },
@@ -42,6 +46,32 @@ export default defineConfig(({ mode }) => ({
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'static-resources',
+              expiration: {
+                maxEntries: 60,
+                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/.*\.(?:woff|woff2|ttf|otf)$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'fonts-cache',
+              expiration: {
+                maxEntries: 30,
+                maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/miizarealtors\.com\/api\/.*$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 5 * 60, // 5 minutes
+              },
             },
           },
         ],
@@ -73,27 +103,39 @@ export default defineConfig(({ mode }) => ({
           charts: ['recharts'],
           forms: ['react-hook-form', '@hookform/resolvers'],
           utils: ['lodash', 'date-fns', 'clsx', 'tailwind-merge'],
+          ui: ['framer-motion', 'lucide-react'],
         },
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]',
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name?.split('.') ?? [];
+          let extType = info[info.length - 1];
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            extType = 'img';
+          } else if (/woff|woff2|eot|ttf|otf/i.test(extType)) {
+            extType = 'fonts';
+          }
+          return `assets/${extType}/[name]-[hash].[ext]`;
+        },
       },
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 800,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: mode === 'production',
         drop_debugger: mode === 'production',
-        pure_funcs: mode === 'production' ? ['console.log', 'console.info'] : [],
+        pure_funcs: mode === 'production' ? ['console.log', 'console.info', 'console.warn'] : [],
+        passes: 2,
       },
       mangle: {
         safari10: true,
       },
     },
-    target: 'es2015',
+    target: 'es2020',
     cssCodeSplit: true,
     sourcemap: mode === 'development',
+    assetsInlineLimit: 4096,
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
