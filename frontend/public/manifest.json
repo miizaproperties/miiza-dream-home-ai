@@ -1,0 +1,28 @@
+{
+  "name": "MiiZA Realtors - Premium Real Estate in Kenya",
+  "short_name": "MiiZA Realtors",
+  "description": "Find your dream property in Kenya. Premium real estate services for buying, renting, and managing properties in Nairobi.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Miiza-02.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Miiza-02.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "real estate", "property"],
+  "lang": "en-KE",
+  "dir": "ltr"
+}
+
