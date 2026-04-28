@@ -2,7 +2,7 @@
  * Centralized API service for frontend-backend communication
  */
 
-import { API_BASE_URL, BACKEND_BASE_URL, getMediaUrl } from '../config/api';
+import { API_BASE_URL, BACKEND_BASE_URL, getMediaUrl, getOptimizedImageUrl, CDN_CONFIG } from '../config/api';
 const API_DEBUG = Boolean(import.meta.env.DEV);
 
 type FetchApiOptions = RequestInit & {
@@ -570,10 +570,18 @@ export const chatbotApi = {
 };
 
 /**
- * Helper function to format property image URL
- * Converts Firebase Storage URLs to use backend proxy to avoid CORS issues
+ * Helper function to get optimized property image URL with CDN and WebP support
+ * @param property - Property object containing image information
+ * @param index - Index of image in images array (default: 0)
+ * @param size - Image size for optimization (default: 'card' for property cards)
+ * @param enableTransforms - Whether to apply CDN image transforms (default: true)
  */
-export function getPropertyImageUrl(property: Property, index: number = 0): string {
+export function getPropertyImageUrl(
+  property: Property, 
+  index: number = 0, 
+  size: keyof typeof CDN_CONFIG.imageTransforms = 'card',
+  enableTransforms: boolean = true
+): string {
   let imageUrl: string | null = null;
 
   // Priority 1: Check for direct image field (from list serializer) - most common
@@ -592,22 +600,15 @@ export function getPropertyImageUrl(property: Property, index: number = 0): stri
     }
   }
 
-  if (!imageUrl) {
-    return '/placeholder.svg';
-  }
+  // Use optimized image URL with CDN and WebP support
+  return getOptimizedImageUrl(imageUrl, size, enableTransforms);
+}
 
-  // If it's already a full URL (including Firebase Storage URLs), return as is
-  // Firebase Storage URLs work directly in browsers and don't need proxying
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-    return imageUrl;
-  }
-
-  // If it's a relative path, try to construct full URL
-  if (imageUrl.startsWith('/')) {
-    return `${BACKEND_BASE_URL}${imageUrl}`;
-  }
-
-  return imageUrl;
+/**
+ * Legacy function for backward compatibility
+ */
+export function getPropertyImageUrlLegacy(property: Property, index: number = 0): string {
+  return getPropertyImageUrl(property, index, 'card', false);
 }
 
 /**

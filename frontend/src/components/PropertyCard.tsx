@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { getPropertyUrl, type Property } from "@/services/api";
+import { getOptimizedImageUrl } from "@/config/api";
 import { MapPin, Bed, Bath, Maximize, Star } from "lucide-react";
 
 interface PropertyCardProps {
@@ -85,19 +86,20 @@ const PropertyCard = ({
           )}
           
           <img
-            src={image || '/placeholder.svg'}
+            src={getOptimizedImageUrl(image, 'card') || '/property-placeholder.svg'}
             alt={title}
             className={`w-full h-full object-cover transition-all duration-300 ${
               imageLoaded ? "opacity-100" : "opacity-0"
             } group-hover:scale-105`}
             loading="lazy"
             decoding="async"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             onLoad={() => setImageLoaded(true)}
             onError={(e) => {
               setImageLoaded(true);
               const target = e.target as HTMLImageElement;
-              if (target.src !== '/placeholder.svg' && !target.src.includes('placeholder')) {
-                target.src = '/placeholder.svg';
+              if (target.src !== '/property-placeholder.svg' && !target.src.includes('placeholder')) {
+                target.src = '/property-placeholder.svg';
               }
             }}
           />

@@ -25,6 +25,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
 import { propertiesApi, viewingRequestsApi, getPropertyImageUrl, formatPropertyPrice, getDisplayArea, getDisplayBedrooms, getDisplayBathrooms, getPropertyUrl, type Property } from "@/services/api";
+import { getOptimizedImageUrl, preloadImage, CDN_CONFIG } from "@/config/api";
 import { BACKEND_BASE_URL } from "@/config/api";
 
 const propertyTypes = [
@@ -324,10 +325,9 @@ const PropertiesPage = () => {
   useEffect(() => {
     const toPreload = filteredProperties.slice(0, 6);
     toPreload.forEach((p) => {
-      const url = getPropertyImageUrl(p);
+      const url = getPropertyImageUrl(p, 0, 'card', true);
       if (url && url.startsWith("http")) {
-        const img = new Image();
-        img.src = url;
+        preloadImage(url, 'high');
       }
     });
   }, [filteredProperties]);
@@ -789,18 +789,19 @@ const PropertiesPage = () => {
             <div className="absolute inset-0 bg-gray-200 animate-pulse z-[0]" aria-hidden />
           )}
           <img
-            src={getPropertyImageUrl(property, currentImage)}
+            src={getPropertyImageUrl(property, currentImage, 'card', true)}
             alt={property.title}
             className={`relative z-[1] w-full h-full object-cover transition-all duration-300 group-hover:scale-105 ${loadedImageIds.has(property.id) ? "opacity-100" : "opacity-0"}`}
             loading={isAboveFold ? "eager" : "lazy"}
             decoding="async"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             {...(isAboveFold ? { fetchpriority: "high" as const } : {})}
             onLoad={() => setLoadedImageIds((prev) => new Set(prev).add(property.id))}
             onError={(e) => {
               setLoadedImageIds((prev) => new Set(prev).add(property.id));
               const target = e.target as HTMLImageElement;
-              if (target.src !== '/placeholder.svg' && !target.src.includes('placeholder')) {
-                target.src = '/placeholder.svg';
+              if (target.src !== '/property-placeholder.svg' && !target.src.includes('placeholder')) {
+                target.src = '/property-placeholder.svg';
               }
             }}
           />
@@ -1496,15 +1497,16 @@ const PropertiesPage = () => {
                     <div className="flex flex-col md:flex-row">
                       <div className="relative w-full md:w-64 h-40 md:h-44 flex-shrink-0 bg-gray-200">
                         <img
-                          src={getPropertyImageUrl(property)}
+                          src={getPropertyImageUrl(property, 0, 'medium', true)}
                           alt={property.title}
                           className="w-full h-full object-cover"
                           loading="lazy"
                           decoding="async"
+                          sizes="(max-width: 768px) 100vw, 300px"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            if (target.src !== '/placeholder.svg' && !target.src.includes('placeholder')) {
-                              target.src = '/placeholder.svg';
+                            if (target.src !== '/property-placeholder.svg' && !target.src.includes('placeholder')) {
+                              target.src = '/property-placeholder.svg';
                             }
                           }}
                         />
@@ -1909,11 +1911,12 @@ const PropertiesPage = () => {
             {/* Main image */}
             <div className="relative">
               <img
-                src={getPropertyImageUrl(properties.find(p => p.id === showPhotoGallery)!, galleryImageIndex)}
+                src={getPropertyImageUrl(properties.find(p => p.id === showPhotoGallery)!, galleryImageIndex, 'gallery', true)}
                 alt={`Property ${showPhotoGallery} - Image ${galleryImageIndex + 1}`}
                 className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
                 loading="eager"
                 decoding="async"
+                sizes="(max-width: 1200px) 90vw, 1200px"
                 {...{ fetchpriority: "high" as const }}
               />
 
