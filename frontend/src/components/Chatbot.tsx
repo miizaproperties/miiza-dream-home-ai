@@ -351,7 +351,7 @@ const Chatbot = () => {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 text-white z-50 transition-transform hover:scale-110"
+          className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 text-white z-30 transition-transform hover:scale-110"
           size="icon"
         >
           <MessageCircle className="h-7 w-7" />
@@ -359,7 +359,7 @@ const Chatbot = () => {
       )}
 
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl z-50 flex flex-col">
+        <Card className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl z-30 flex flex-col">
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex items-center justify-between rounded-t-lg">
             <div className="flex items-center gap-3">
@@ -652,7 +652,7 @@ const Chatbot = () => {
       {/* Animated BOOK NOW Button */}
       {!isOpen && (
         <div
-          className={`fixed bottom-24 right-6 z-40 transition-all duration-500 ease-in-out ${showBookNow
+          className={`fixed bottom-24 right-6 z-20 transition-all duration-500 ease-in-out ${showBookNow
               ? 'translate-x-0 opacity-100'
               : 'translate-x-[120%] opacity-0'
             }`}

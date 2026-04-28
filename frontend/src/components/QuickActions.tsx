@@ -23,7 +23,7 @@ const QuickActions = () => {
     };
 
     return (
-        <div className="fixed left-6 bottom-6 z-50 flex flex-col gap-4">
+        <div className="fixed left-6 bottom-6 z-40 flex flex-col gap-4">
             <TooltipProvider>
                 {/* WhatsApp Button - appears when expanded */}
                 <div

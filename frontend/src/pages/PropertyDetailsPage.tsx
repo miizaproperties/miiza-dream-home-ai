@@ -611,8 +611,13 @@ const PropertyDetailsPage = () => {
                   style={{ transition: "opacity 0.25s ease-out" }}
                   loading="eager"
                   decoding="async"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                   {...{ fetchpriority: "high" as const }}
                   onLoad={() => setMainImageLoaded(true)}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/property-placeholder.svg';
+                  }}
                 />
               </>
             ) : (
@@ -681,6 +686,11 @@ const PropertyDetailsPage = () => {
                     className="w-full h-full object-cover"
                     loading={index < 4 ? "eager" : "lazy"}
                     decoding="async"
+                    sizes="80px"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/property-placeholder.svg';
+                    }}
                   />
                 </button>
               ))}
@@ -976,21 +986,26 @@ const PropertyDetailsPage = () => {
       <Footer />
 
       {/* Mobile Fixed CTA */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex gap-3 z-[100] shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.15)]">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4 pb-safe flex gap-3 z-[200] shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.15)] touch-manipulation">
         <Button 
-          className="flex-1 bg-blue-600 hover:bg-blue-700" 
+          className="flex-1 bg-blue-600 hover:bg-blue-700 min-h-[44px]" 
           size="lg" 
-          onClick={() => document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' })}
+          onClick={() => {
+            const form = document.getElementById('inquiry-form');
+            if (form) {
+              form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }}
         >
           <Calendar className="mr-2 h-4 w-4" />
           Schedule Viewing
         </Button>
         <Button 
           variant="outline" 
-          className="px-4" 
+          className="px-4 min-h-[44px] min-w-[44px]" 
           size="lg" 
           onClick={handleSave}
-          aria-label="Save Property"
+          aria-label={isSaved ? "Remove from favorites" : "Save to favorites"}
         >
           <Heart className={`h-5 w-5 ${isSaved ? "text-red-500 fill-red-500" : "text-gray-600"}`} />
         </Button>
