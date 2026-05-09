@@ -3,9 +3,16 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "@/hooks/useSEO";
 
 const PropertySalesPage = () => {
   const navigate = useNavigate();
+  
+  useSEO({
+    title: "Property Sales & Purchase Services | MiiZA Realtors",
+    description: "Expert property sales and purchase services in Nairobi. Get professional valuation, market analysis, negotiation support, and legal guidance from MiiZA Realtors.",
+    keywords: "property sales Nairobi, buy property Kenya, real estate purchase services, property valuation Kenya"
+  });
 
   const features = [
     {

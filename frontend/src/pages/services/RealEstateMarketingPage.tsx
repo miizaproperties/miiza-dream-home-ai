@@ -3,9 +3,16 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "@/hooks/useSEO";
 
 const RealEstateMarketingPage = () => {
   const navigate = useNavigate();
+  
+  useSEO({
+    title: "Real Estate Marketing Services | MiiZA Realtors",
+    description: "Strategic real estate marketing in Nairobi. Professional photography, digital marketing, social media promotion, and virtual tours to showcase your property.",
+    keywords: "real estate marketing Nairobi, property marketing Kenya, property photography Nairobi, virtual tours Kenya"
+  });
 
   const services = [
     {

@@ -27,6 +27,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { propertiesApi, viewingRequestsApi, getPropertyImageUrl, formatPropertyPrice, getDisplayArea, getDisplayBedrooms, getDisplayBathrooms, getPropertyUrl, type Property } from "@/services/api";
 import { getOptimizedImageUrl, preloadImage, CDN_CONFIG } from "@/config/api";
 import { BACKEND_BASE_URL } from "@/config/api";
+import { useSEO } from "@/hooks/useSEO";
 
 const propertyTypes = [
   { id: "apartment", label: "Apartment" },
@@ -191,6 +192,12 @@ const PropertiesPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [savedProperties, setSavedProperties] = useState<number[]>([]);
+  
+  useSEO({
+    title: "Properties for Sale & Rent in Nairobi | MiiZA Realtors",
+    description: "Browse our extensive collection of properties for sale and rent in Nairobi. Find apartments, houses, offices, and commercial properties with MiiZA Realtors.",
+    keywords: "properties Nairobi, houses for sale Nairobi, apartments for rent Nairobi, real estate listings Kenya"
+  });
   const [selectedMapPropertyId, setSelectedMapPropertyId] = useState<number | null>(null);
 
   // Filter states
@@ -848,7 +855,7 @@ const PropertiesPage = () => {
           </button>
 
           {/* Quick view overlay */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
             <Button
               variant="secondary"
               size="sm"
@@ -856,6 +863,7 @@ const PropertiesPage = () => {
                 e.stopPropagation();
                 handleQuickView(property.id);
               }}
+              className="pointer-events-auto"
             >
               Quick View
             </Button>
@@ -909,7 +917,13 @@ const PropertiesPage = () => {
                 e.preventDefault();
                 window.location.href = propertyDetailUrl;
               }}
-              className="text-xs h-8 px-3 bg-blue-600 hover:bg-blue-700"
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+              }}
+              className="text-xs h-8 px-3 bg-blue-600 hover:bg-blue-700 relative z-10"
             >
               Book Now
             </Button>
@@ -1571,7 +1585,13 @@ const PropertiesPage = () => {
                               e.stopPropagation();
                               window.location.href = getPropertyUrl(property);
                             }}
-                            className="text-xs h-8 px-3 bg-blue-600 hover:bg-blue-700"
+                            onMouseDown={(e) => {
+                              e.stopPropagation();
+                            }}
+                            onTouchStart={(e) => {
+                              e.stopPropagation();
+                            }}
+                            className="text-xs h-8 px-3 bg-blue-600 hover:bg-blue-700 relative z-10"
                           >
                             View Details
                           </Button>

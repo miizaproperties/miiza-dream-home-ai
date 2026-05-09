@@ -3,9 +3,16 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "@/hooks/useSEO";
 
 const TenantPlacementPage = () => {
   const navigate = useNavigate();
+  
+  useSEO({
+    title: "Tenant Placement Services | MiiZA Realtors",
+    description: "Efficient tenant placement services in Nairobi. Background verification, income verification, reference checks, and contract management for quality tenants.",
+    keywords: "tenant placement Nairobi, tenant screening Kenya, rental verification services, property tenant management"
+  });
 
   const services = [
     {

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useSEO } from "@/hooks/useSEO";
 import {
   Building,
   Home,
@@ -17,6 +18,12 @@ import {
 
 const ServicesPage = () => {
   const navigate = useNavigate();
+  
+  useSEO({
+    title: "Real Estate Services in Nairobi | MiiZA Realtors",
+    description: "Comprehensive real estate services including property sales, rentals, management, marketing, tenant placement, and advisory. Professional property solutions in Nairobi.",
+    keywords: "real estate services Nairobi, property management Kenya, property sales Nairobi, rental services Nairobi"
+  });
 
   const services = [
     {

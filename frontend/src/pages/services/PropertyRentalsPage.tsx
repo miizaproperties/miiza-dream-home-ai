@@ -3,9 +3,16 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "@/hooks/useSEO";
 
 const PropertyRentalsPage = () => {
   const navigate = useNavigate();
+  
+  useSEO({
+    title: "Property Rentals & Leasing Services | MiiZA Realtors",
+    description: "Complete rental and leasing solutions in Nairobi. Find apartments, houses, and commercial properties for rent with tenant screening and lease management services.",
+    keywords: "property rentals Nairobi, houses for rent Kenya, apartment leasing Nairobi, rental services Kenya"
+  });
 
   const services = [
     {

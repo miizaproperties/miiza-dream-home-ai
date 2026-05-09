@@ -3,9 +3,16 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "@/hooks/useSEO";
 
 const PropertyAdvisoryPage = () => {
   const navigate = useNavigate();
+  
+  useSEO({
+    title: "Property Advisory Services | MiiZA Realtors",
+    description: "Professional real estate consultation services in Nairobi. Investment analysis, market research, portfolio planning, and risk assessment for informed decisions.",
+    keywords: "property advisory Nairobi, real estate consulting Kenya, investment analysis Nairobi, property market research Kenya"
+  });
 
   const services = [
     {

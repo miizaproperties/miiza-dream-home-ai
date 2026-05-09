@@ -171,11 +171,17 @@ const PropertyCard = ({
             </div>
             <Button
               size="sm"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded relative z-10"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 window.location.href = propertyDetailUrl;
+              }}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation();
               }}
             >
               View Details

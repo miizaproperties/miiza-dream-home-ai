@@ -3,9 +3,16 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "@/hooks/useSEO";
 
 const PropertyManagementPage = () => {
   const navigate = useNavigate();
+  
+  useSEO({
+    title: "Property Management Services | MiiZA Realtors",
+    description: "Professional property management services in Nairobi. Maintenance coordination, rent collection, financial reporting, and 24/7 support for property owners.",
+    keywords: "property management Nairobi, real estate management Kenya, property maintenance services, rental management Kenya"
+  });
 
   const services = [
     {

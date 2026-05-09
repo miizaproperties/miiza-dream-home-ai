@@ -114,7 +114,7 @@ const PropertyCard = React.memo(({
           </button>
 
           {/* Quick view overlay */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
             <Button
               variant="secondary"
               size="sm"
@@ -122,6 +122,7 @@ const PropertyCard = React.memo(({
                 e.stopPropagation();
                 handleClick();
               }}
+              className="pointer-events-auto"
             >
               Quick View
             </Button>
@@ -168,7 +169,13 @@ const PropertyCard = React.memo(({
                 e.stopPropagation();
                 handleClick();
               }}
-              className="text-xs h-8 px-3 bg-blue-600 hover:bg-blue-700"
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+              }}
+              className="text-xs h-8 px-3 bg-blue-600 hover:bg-blue-700 relative z-10"
             >
               View
             </Button>
