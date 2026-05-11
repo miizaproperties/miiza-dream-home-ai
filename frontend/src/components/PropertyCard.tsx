@@ -171,11 +171,15 @@ const PropertyCard = ({
             </div>
             <Button
               size="sm"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded relative z-10"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 text-sm font-medium rounded relative z-10"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = propertyDetailUrl;
+                const whatsappNumber = "+254717334422";
+                const message = encodeURIComponent(
+                  `Hi, I'm interested in ${title} located in ${location}. Price: ${price}. Can you provide more information?`
+                );
+                window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
               }}
               onMouseDown={(e) => {
                 e.stopPropagation();
@@ -184,7 +188,7 @@ const PropertyCard = ({
                 e.stopPropagation();
               }}
             >
-              View Details
+              Book Now
             </Button>
           </div>
         </div>

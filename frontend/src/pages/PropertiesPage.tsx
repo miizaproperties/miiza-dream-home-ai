@@ -915,7 +915,11 @@ const PropertiesPage = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                window.location.href = propertyDetailUrl;
+                const whatsappNumber = "+254717334422";
+                const message = encodeURIComponent(
+                  `Hi, I'm interested in ${property.title} located in ${property.location}. Price: ${formatPropertyPrice(property)}. Can you provide more information?`
+                );
+                window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
               }}
               onMouseDown={(e) => {
                 e.stopPropagation();
@@ -923,7 +927,7 @@ const PropertiesPage = () => {
               onTouchStart={(e) => {
                 e.stopPropagation();
               }}
-              className="text-xs h-8 px-3 bg-blue-600 hover:bg-blue-700 relative z-10"
+              className="text-xs h-8 px-3 bg-green-600 hover:bg-green-700 relative z-10"
             >
               Book Now
             </Button>
