@@ -19,10 +19,12 @@ export const useSEO = ({
   const location = useLocation();
   
   useEffect(() => {
-    // Set page title
-    if (title) {
-      document.title = title;
-    }
+    // Small delay to ensure DOM is ready
+    const updateSEO = () => {
+      // Set page title
+      if (title) {
+        document.title = title;
+      }
     
     // Set meta description
     if (description) {
@@ -46,15 +48,20 @@ export const useSEO = ({
       metaKeywords.setAttribute('content', keywords);
     }
     
-    // Set canonical URL
+    // Set canonical URL - Remove ALL existing canonical tags first
     const canonical = canonicalUrl || `https://miizarealtors.com${location.pathname}`;
-    let linkCanonical = document.querySelector('link[rel="canonical"]');
-    if (!linkCanonical) {
-      linkCanonical = document.createElement('link');
-      linkCanonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(linkCanonical);
-    }
+    
+    // Remove all existing canonical tags
+    const existingCanonicals = document.querySelectorAll('link[rel="canonical"]');
+    existingCanonicals.forEach(link => link.remove());
+    
+    // Create new canonical tag
+    const linkCanonical = document.createElement('link');
+    linkCanonical.setAttribute('rel', 'canonical');
     linkCanonical.setAttribute('href', canonical);
+    document.head.appendChild(linkCanonical);
+    
+    console.log('SEO: Set canonical URL to:', canonical);
     
     // Set Open Graph meta tags
     if (title) {
@@ -105,6 +112,11 @@ export const useSEO = ({
       document.head.appendChild(ogType);
     }
     ogType.setAttribute('content', 'website');
+    };
+
+    // Run immediately and also with a small delay
+    updateSEO();
+    setTimeout(updateSEO, 100);
     
   }, [location.pathname, title, description, keywords, canonicalUrl, ogImage]);
 };
