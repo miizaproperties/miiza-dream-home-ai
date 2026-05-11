@@ -196,7 +196,8 @@ const PropertiesPage = () => {
   useSEO({
     title: "Properties for Sale & Rent in Nairobi | MiiZA Realtors",
     description: "Browse our extensive collection of properties for sale and rent in Nairobi. Find apartments, houses, offices, and commercial properties with MiiZA Realtors.",
-    keywords: "properties Nairobi, houses for sale Nairobi, apartments for rent Nairobi, real estate listings Kenya"
+    keywords: "properties Nairobi, houses for sale Nairobi, apartments for rent Nairobi, real estate listings Kenya",
+    canonicalUrl: "https://miizarealtors.com/properties"
   });
   const [selectedMapPropertyId, setSelectedMapPropertyId] = useState<number | null>(null);
 
